@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import{HERO} from './hero'
+import{Hero} from './hero'
 import { HEROES } from './mock-heroes';
 
 
