@@ -16,17 +16,17 @@ export class HeroService {
 
   getHeroes():Promise<Hero[]>{
     return this.http.get(this.heroesUrl)
-      .toPromise()
-      .then(res => res.json().data as Hero[])
-      .catch(this.handleError);
+    .toPromise()
+    .then(res => res.json().data as Hero[])
+    .catch(this.handleError);
   }//getHeroes
 
   getHero(id:number):Promise<Hero>{
     const url = `${this.heroesUrl}/${id}`;
     return this.http.get(url)
-      .toPromise()
-      .then(res => res.json().data as Hero)
-      .catch(this.handleError);
+    .toPromise()
+    .then(res => res.json().data as Hero)
+    .catch(this.handleError);
   }//getHero
   update(hero:Hero):Promise<Hero>{
     const url = `${this.heroesUrl}/${hero.id}`;
@@ -36,6 +36,23 @@ export class HeroService {
     .then(()=> hero)
     .catch(this.handleError);
   }//update
+
+  create(name:string){
+    return this.http
+    .post(this.heroesUrl, JSON.stringify({name:name}),
+    {headers:this.headers})
+    .toPromise()
+    .then(res => res.json().data)
+    .catch(this.handleError);
+  }//create
+  delete(id:number):Promise <void>{
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http
+      .delete(url,{headers:this.headers})
+      .toPromise()
+      .then(()=> null)
+      .catch(this.handleError);
+  }//delete
 
   private handleError(error:any): Promise<any>{
     console.error('There was some friggin\' error',error);

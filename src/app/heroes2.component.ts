@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import{Router} from '@angular/router';
 import { Hero } from './hero';
-import { HEROES } from './mock-heroes';
+// import { HEROES } from './mock-heroes';
 import {HeroService} from './hero.service';
 
 
@@ -11,11 +11,12 @@ import {HeroService} from './hero.service';
   moduleId:module.id,
   selector: 'my-heroes',
   templateUrl:'./heroes.component.html',
-providers:[HeroService]
+  styleUrls:['./heroes.component.css'],
+  providers:[HeroService]
 })
 
 export class HeroesComponent implements OnInit {
-  heroes = HEROES;
+  heroes : Hero[];
   selectedHero:Hero;
 
 
@@ -25,10 +26,30 @@ constructor(
 ){}
 getHeroes():void{
   this.heroService.getHeroes().then(heroes=> this.heroes = heroes);
-}
+}//getHeroes
+
 goToDetail(){
   this.router.navigate(['/detail', this.selectedHero.id]);
-}
+}//goToDetail
+add(name:string):void{
+    name = name.trim();
+    if(!name){return;}
+    this.heroService.create(name)
+      .then(hero => {
+        this.heroes.push(hero);
+        this.selectedHero = null;
+      });
+}//add
+  delete(hero:Hero):void{
+    this.heroService
+      .delete(hero.id)
+      .then(()=>{
+        this.heroes = this.heroes.filter(h=>h !==hero);
+        if(this.selectedHero ===hero){
+          this.selectedHero = null;
+        }//if
+      });//callback
+  }//delete
 ngOnInit(){
   this.getHeroes();
 }
