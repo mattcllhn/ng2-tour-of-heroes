@@ -8,7 +8,10 @@ import { AppComponent }  from './app.component';
 import { HeroDetailComponent } from './hero-detail.component';
 import {HeroesComponent} from "./heroes2.component";
 import {DashboardComponent} from "./dashboard.component";
+import {HeroService} from "./hero.service";
 
+
+import {AppRoutingModule} from "./app-routing.module";
 
 
 
@@ -17,19 +20,7 @@ import {DashboardComponent} from "./dashboard.component";
   imports:      [
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot([{
-      path: 'heroes',
-      component: HeroesComponent
-    },{
-      path: 'dashboard',
-      component: DashboardComponent
-
-    },{
-      path: '',
-      redirectTo:'dashboard',
-      pathMatch:'full'
-    }
-  ])
+    AppRoutingModule
    ],
   declarations: [
     AppComponent,
@@ -37,6 +28,7 @@ import {DashboardComponent} from "./dashboard.component";
     HeroesComponent,
     DashboardComponent
    ],
+   providers:[HeroService],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
